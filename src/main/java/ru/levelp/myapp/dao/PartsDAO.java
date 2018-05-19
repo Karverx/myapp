@@ -43,4 +43,13 @@ public class PartsDAO {
                 .setParameter("partId", partId)
                 .getResultList();
     }
+
+    @SuppressWarnings("unchecked")
+    public List<Part> findAllParts() {
+        return em.createQuery("from Part").getResultList();
+    }
+
+    public EntityManager getEm() {
+        return em;
+    }
 }
