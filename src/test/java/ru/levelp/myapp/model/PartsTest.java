@@ -3,6 +3,12 @@ package ru.levelp.myapp.model;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import ru.levelp.myapp.conf.TestConfiguration;
 import ru.levelp.myapp.dao.PartsDAO;
 
 import javax.persistence.*;
@@ -14,26 +20,16 @@ import static org.junit.Assert.assertNotNull;
 import static ru.levelp.myapp.model.Part.SEARCH_BY_PART_ID;
 
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = TestConfiguration.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class PartsTest {
-    private EntityManagerFactory emf;
+
+    @Autowired
     private EntityManager em;
 
+    @Autowired
     private PartsDAO dao;
-
-
-    @Before
-    public void setup() {
-        emf = Persistence.createEntityManagerFactory("TestPersistenceUnit");
-        em = emf.createEntityManager();
-        dao = new PartsDAO(em);
-    }
-
-    @After
-    public void end() {
-        em.close();
-        emf.close();
-    }
-
 
     @Test
     public void testCreatePartWithSupplier() throws Throwable {
